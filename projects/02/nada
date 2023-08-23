@@ -1,0 +1,3 @@
+for i in range(15):
+	text = "FullAdder(a=a[{}], b=b[{}], c=carry{}, sum=out[{}], carry=carry{})".format(i, i, i, i, i + 1)
+	print(text)
