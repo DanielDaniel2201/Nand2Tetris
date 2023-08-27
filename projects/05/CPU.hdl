@@ -40,4 +40,34 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    And(a=instruction[15] ,b=instruction[5] ,out=d1 );
+    And(a=instruction[15] ,b=instruction[4] ,out=d2 );
+    And(a=instruction[15] ,b=instruction[3] ,out=d3,out=writeM );
+    And(a=instruction[15] ,b=instruction[2] ,out=j1 );
+    And(a=instruction[15] ,b=instruction[1] ,out=j2 );
+    And(a=instruction[15] ,b=instruction[0] ,out=j3 );
+
+    // A register
+    Mux16(a=instruction, b=ALUoutput, sel=instruction[15], out=MuxOut1);
+    Not(in=instruction[15], out=Aload0);
+    Or(a=d1, b=Aload0, out=Aload);
+    ARegister(in=MuxOut1, load=Aload, out=AregOut, out[0..14] = addressM);
+
+    // D register
+    DRegister(in=ALUoutput, load=d2, out=DregOut);
+
+    // ALU
+    Mux16(a=AregOut, b=inM, sel=instruction[12], out=MuxOut2);
+    ALU(x=DregOut, y=MuxOut2, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUoutput, out=outM, zr=zr, ng=ng);
+
+    // PC
+    Xor(a=zr, b=ng, out=pt0);
+    Not(in=pt0, out=pt);
+    And(a=ng, b=j1, out=and1);
+    And(a=zr, b=j2, out=and2);
+    And(a=pt, b=j3, out=and3);
+    Or(a=and1, b=and2, out=or1);
+    Or(a=or1, b=and3, out=load);
+    Not(in=load, out=inc);
+    PC(in=AregOut, load=load, inc=inc, reset=reset, out[0..14]=pc);
 }
