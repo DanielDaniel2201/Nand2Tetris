@@ -41,21 +41,12 @@ public class BasicHackAssembler {
         }
     }
 
-    public boolean isAIns() {
+    private boolean isAIns() {
         return parser.instuctionType() == 1;
     }
-
-    public boolean isLIns() {
-        return parser.instuctionType() == 2;
-    }
     
-    public boolean isCIns() {
+    private boolean isCIns() {
         return parser.instuctionType() == 3;
-    }
-
-    public boolean isValid() {
-        int type = parser.instuctionType();
-        return type == 1 || type == 2 || type == 3;
     }
 
     public void assemble() throws IOException {
@@ -80,8 +71,4 @@ public class BasicHackAssembler {
         FW.close();
         System.out.println("File writing completed.");
     }
-
-
-
-    
 }

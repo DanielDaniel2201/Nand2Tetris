@@ -157,5 +157,4 @@ public class TestParser {
         maxParser.advance();  // Computes R2 = max(R0, R1)  (R0,R1,R2 refer to RAM[0],RAM[1],RAM[2])
         assertTrue(maxParser.shouldIgnore());
     }
-
 }

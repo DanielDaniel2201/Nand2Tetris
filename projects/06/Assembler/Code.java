@@ -47,6 +47,7 @@ public class Code {
         DestTable.put("M", "001");
         DestTable.put("D", "010");
         DestTable.put("DM", "011");
+        DestTable.put("MD", "011"); // This record is created because in Rect.asm a dest part is written as "MD" instead of "DM" from the standard encoding and decoding table
         DestTable.put("A", "100");
         DestTable.put("AM", "101");
         DestTable.put("AD", "110");

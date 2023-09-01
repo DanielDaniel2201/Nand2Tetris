@@ -26,8 +26,25 @@ public class Parser {
 
     // hasMoreLines returns whether the scanner still has content to scan
     public boolean hasMoreLines() {
+        // discard the white space in the first line of the input
+        if (currIns.contains(" ")) {
+            currIns = currIns.replace(" ", "");
+        }
+        if (currIns.charAt(0) != '/' && currIns.contains("/")) {
+            currIns = getRidOfComments(currIns);
+        }
         while (shouldIgnore()) {
             currIns = fs.nextLine();
+            if (currIns == "") {
+                continue;
+            }
+            // discard the white space in the rest of the lines of the input
+            if (currIns.contains(" ")) {
+                currIns = currIns.replace(" ", "");
+            }
+            if (currIns.charAt(0) != '/' && currIns.contains("/")) {
+                currIns = getRidOfComments(currIns);
+            }
         }
         return fs.hasNextLine();
     }
@@ -43,7 +60,6 @@ public class Parser {
 
     // instructionType returns integer 1, 2, or 3 to indicate the insturction type (A, L, C, respectively)
     public int instuctionType () {
-        // currIns = fs.next();
         boolean atSign = currIns.contains("@");
         boolean leftBracket = currIns.contains("(");
         
@@ -123,5 +139,13 @@ public class Parser {
 
     public boolean shouldIgnore() {
         return currIns.contains("//") || currIns == "";
+    }
+
+    public String getRidOfComments(String str) {
+        int edge = 0;
+        while (str.charAt(edge) != '/') {
+            edge += 1;
+        }
+        return str.substring(0, edge);
     }
 }
